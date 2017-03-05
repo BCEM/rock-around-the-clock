@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net451": {
+      "wrappedProject": "../../Clock-Back.Core/Clock-Back.Models.csproj",
+      "bin": {
+        "assembly": "../../Clock-Back.Core/obj/{configuration}/Clock-Back.Core.dll",
+        "pdb": "../../Clock-Back.Core/obj/{configuration}/Clock-Back.Core.pdb"
+      }
+    }
+  }
+}

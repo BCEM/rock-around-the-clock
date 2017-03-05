@@ -1,0 +1,25 @@
+<mdl-layout mdl-layout-fixed-header mdl-layout-header-seamed>
+  <mdl-layout-header>
+    <mdl-layout-header-row>
+      <mdl-layout-spacer></mdl-layout-spacer>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" [routerLink]="['/local']">local</a>
+        <a class="mdl-navigation__link" [routerLink]="['/local-broken']">local-broken</a>
+        <a class="mdl-navigation__link" [routerLink]="['/remote']">remote</a>
+        <a class="mdl-navigation__link" [routerLink]="['/remote-broken']">remote-broken</a>
+      </nav>
+    </mdl-layout-header-row>
+  </mdl-layout-header>
+  <mdl-layout-drawer>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" [routerLink]="['/local']">local</a>
+      <a class="mdl-navigation__link" [routerLink]="['/local-broken']">local-broken</a>
+      <a class="mdl-navigation__link" [routerLink]="['/remote']">remote</a>
+      <a class="mdl-navigation__link" [routerLink]="['/remote-broken']">remote-broken</a>
+    </nav>
+  </mdl-layout-drawer>
+  <mdl-layout-content class="demo-content">
+    <router-outlet></router-outlet>
+  </mdl-layout-content>
+</mdl-layout>

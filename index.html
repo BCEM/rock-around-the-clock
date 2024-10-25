@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic 8-Ball</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border-radius: 50%;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="magic8BallCanvas" width="400" height="400"></canvas>
+
+    <script>
+        const canvasSize = 400;
+        const adviceList = [
+            "Yes", "No", "Ask again later", "Definitely", "Unlikely",
+            "It is certain", "Cannot predict now", "Don't count on it",
+            "Yes, in due time", "My sources say no", "Outlook good"
+        ];
+
+        const canvas = document.getElementById('magic8BallCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentAdvice = adviceList[Math.floor(Math.random() * adviceList.length)];
+
+        function draw8Ball(advice, rotation = 0) {
+            ctx.clearRect(0, 0, canvasSize, canvasSize);
+
+            // Draw 8-ball background
+            ctx.save();
+            ctx.translate(canvasSize / 2, canvasSize / 2);
+            ctx.rotate(rotation);
+            ctx.translate(-canvasSize / 2, -canvasSize / 2);
+            ctx.fillStyle = "#000";
+            ctx.beginPath();
+            ctx.arc(canvasSize / 2, canvasSize / 2, canvasSize / 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Draw inner triangle
+            ctx.fillStyle = "#2a2a2a";
+            ctx.beginPath();
+            ctx.moveTo(canvasSize / 2, 120);
+            ctx.lineTo(180, 280);
+            ctx.lineTo(220, 280);
+            ctx.closePath();
+            ctx.fill();
+
+            // Draw text
+            ctx.fillStyle = "#FFF";
+            ctx.font = "18px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText(advice, canvasSize / 2, canvasSize / 2 + 15);
+
+            ctx.restore();
+        }
+
+        function shakeEvent() {
+            let rotation = 0;
+            const rotationInterval = setInterval(() => {
+                rotation += Math.PI / 8;
+                if (rotation >= Math.PI * 2) {
+                    clearInterval(rotationInterval);
+                    currentAdvice = adviceList[Math.floor(Math.random() * adviceList.length)];
+                    draw8Ball(currentAdvice);
+                } else {
+                    draw8Ball(currentAdvice, rotation);
+                }
+            }, 50);
+        }
+
+        draw8Ball(currentAdvice);
+
+        // Shake detection
+        let lastX, lastY, lastZ;
+        let threshold = 15; // Adjust for sensitivity
+        window.addEventListener('devicemotion', (event) => {
+            const { x, y, z } = event.acceleration;
+            if (lastX !== undefined && lastY !== undefined && lastZ !== undefined) {
+                const deltaX = Math.abs(lastX - x);
+                const deltaY = Math.abs(lastY - y);
+                const deltaZ = Math.abs(lastZ - z);
+                if (deltaX + deltaY + deltaZ > threshold) {
+                    shakeEvent();
+                }
+            }
+            lastX = x;
+            lastY = y;
+            lastZ = z;
+        });
+    </script>
+</body>
+</html>
